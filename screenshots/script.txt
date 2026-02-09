@@ -1,0 +1,117 @@
+#!/bin/bash
+yum update -y
+
+# Install Apache
+yum install -y httpd
+
+# Enable and start Apache
+systemctl enable httpd
+systemctl start httpd
+
+# Create the website
+cat << 'EOF' > /var/www/html/index.html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Rieko Suave</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #1f2933;
+            background-image: url("https://images.unsplash.com/photo-1517694712202-14dd9538aa97");
+            background-size: cover;
+            background-attachment: fixed;
+            color: #ffffff;
+        }
+
+        .overlay {
+            background: rgba(0, 0, 0, 0.75);
+            min-height: 100vh;
+            padding: 40px;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 3rem;
+            margin-bottom: 40px;
+        }
+
+        section {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            margin-bottom: 30px;
+            border-radius: 10px;
+        }
+
+        section h2 {
+            margin-top: 0;
+            color: #38bdf8;
+        }
+
+        img {
+            max-width: 100%;
+            border-radius: 8px;
+            margin-top: 15px;
+        }
+
+        footer {
+            text-align: center;
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body>
+
+<div class="overlay">
+    <h1 id="name"></h1>
+
+    <section id="about"></section>
+    <section id="projects"></section>
+    <section id="contact"></section>
+
+    <footer>
+        © 2026 Rieko Suave
+    </footer>
+</div>
+
+<script>
+    document.getElementById("name").textContent = "Rieko Suave";
+
+    document.getElementById("about").innerHTML = `
+        <h2>About Me</h2>
+        <p>
+            Hi, I'm Rieko Suave. I'm new to I.T. and still learning everything that I can
+            to get a high-earning skill/career. I'm 36 years old and transitioning into tech.
+        </p>
+        <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c">
+    `;
+
+    document.getElementById("projects").innerHTML = `
+        <h2>Project Description</h2>
+        <p>
+            This project demonstrates Linux automation and cloud initialization by writing
+            a startup script that configures an EC2 instance to host a static website.
+        </p>
+        <img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c">
+    `;
+
+    document.getElementById("contact").innerHTML = `
+        <h2>Contact</h2>
+        <p>
+            Email: example@email.com<br>
+            GitHub: github.com/RiekoSuave
+        </p>
+    `;
+</script>
+
+</body>
+</html>
+EOF
+
+# Fix permissions
+chown apache:apache /var/www/html/index.html
+chmod 644 /var/www/html/index.html
